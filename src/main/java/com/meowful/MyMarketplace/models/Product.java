@@ -8,19 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Setter
-
 @Getter
-
 @AllArgsConstructor
-
 @NoArgsConstructor
-
 @ToString
-
 @Entity
-
-//@Entity
-//@Data
 @Table(name = "products")
 public class Product {
     @Id

@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +22,7 @@ public class ShoppingCartService {
     private final ProductService productService;
 
     @Transactional
-    public void deleteProductFromCart(Principal principal, Long productId){
+    public Map<String, Integer> deleteProductFromCart(Principal principal, Long productId){
         User user = userService.getUser(principal);
         ShoppingCart shoppingCart = user.getShoppingCart();
         Product product = productService.getProductById(productId);
@@ -30,6 +32,10 @@ public class ShoppingCartService {
         product.setShoppingCart(null);
         shoppingCartRepository.save(shoppingCart);
 
+        Map<String, Integer> response = new HashMap<>();
+        response.put("newSum", shoppingCart.getSum());
+        response.put("cartSize", shoppingCart.getProducts().size());
+        return response;
     }
 
     public void addProductToCart(Principal principal, Long productId){

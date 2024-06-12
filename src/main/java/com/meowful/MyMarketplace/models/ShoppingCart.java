@@ -6,17 +6,10 @@ import org.hibernate.annotations.Fetch;
 
 import java.util.List;
 @Setter
-
 @Getter
-
 @AllArgsConstructor
-
 @NoArgsConstructor
-
 @Entity
-
-/*@Entity
-@Data*/
 @Table(name = "shopping_cart")
 public class ShoppingCart {
     @Id

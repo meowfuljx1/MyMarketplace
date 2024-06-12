@@ -7,10 +7,7 @@ import com.meowful.MyMarketplace.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.HashMap;
@@ -32,16 +29,17 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/add-to-cart")
-    public String addProductToCart(Principal principal, Long productId, String template){
+    @ResponseBody
+    public void addProductToCart(Principal principal, @RequestBody Map<String, Object> map){
+        Long productId = Long.parseLong(map.get("productId").toString());
         shoppingCartService.addProductToCart(principal, productId);
-        return "redirect:" + template;
     }
 
-
     @PostMapping("/delete-from-cart")
-    public String deleteProductFromCart(Principal principal, Long productId){
-        shoppingCartService.deleteProductFromCart(principal, productId);
-        return "redirect:show-shopping-cart";
+    @ResponseBody
+    public Map<String, Integer> deleteProductFromCart(Principal principal, @RequestBody Map<String, Object> map){
+        Long productId = Long.parseLong(map.get("productId").toString());
+        return shoppingCartService.deleteProductFromCart(principal, productId);
     }
 
 }

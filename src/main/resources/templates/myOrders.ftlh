@@ -16,6 +16,7 @@
             background-size: cover;
             background-repeat: no-repeat;
         }
+
         .card {
             background-image: url('https://gas-kvas.com/uploads/posts/2023-02/1675440806_gas-kvas-com-p-razmitii-fonovii-risunok-16.jpg');
             background-size: cover;
@@ -30,37 +31,36 @@
 <body>
 
 <#include "navbar.ftlh"> <!-- Подключение навигационной панели -->
-<br><br><br><br>
+<br><br><br>
+<h1 class="text-center">My orders</h1>
+<#if user.orders?size == 0>
+<h3 class="text-center">There are no products yet</h3>
+<#else>
 <div class="container mt-5 text-center">
-
-    <#if user.orders?size == 0>
-        <h3>There are no orders yet</h3>
-    <#else>
-
-        <div class="container">
-            <div class="row">
-                <#list user.orders as order>
-                    <div class="col-md-4">
-                        <div class="card mb-4">
-                            <h5 class="card-header">Order #${order.id}, Amount: ${order.sum} руб.</h5>
-                            <div class="card-body">
-                                <ul>
-                                    <#list order.products as product>
-                                        <li>
-                                            <strong>${product.title}</strong> - ${product.price} руб.
-                                        </li>
-                                    </#list>
-                                </ul>
-                                <form method="post" action="/my-orders/cancel/${order.id}">
-                                    <input type="hidden" name="_csrf" value="${_csrf.token}">
-                                    <button type="submit" class="btn btn-danger">Cancel the order</button>
-                                </form>
-                            </div>
+    <div class="container">
+        <div class="row">
+            <#list user.orders as order>
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <h5 class="card-header">Order #${order.id}, Amount: ${order.sum} руб.</h5>
+                        <div class="card-body">
+                            <ul>
+                                <#list order.products as product>
+                                    <li>
+                                        <strong>${product.title}</strong> - ${product.price} руб.
+                                    </li>
+                                </#list>
+                            </ul>
+                            <form method="post" action="/my-orders/cancel/${order.id}">
+                                <input type="hidden" name="_csrf" value="${_csrf.token}">
+                                <button type="submit" class="btn btn-danger">Cancel the order</button>
+                            </form>
                         </div>
                     </div>
-                </#list>
-            </div>
+                </div>
+            </#list>
         </div>
+    </div>
     </#if>
 </div>
 </body>

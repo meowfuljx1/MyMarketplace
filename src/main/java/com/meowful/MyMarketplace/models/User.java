@@ -19,6 +19,7 @@ public class User {
     private String password;
     @Column(unique = true)
     private String email;
+    private String activationCode;
     private String telegram;
     private String phoneNumber;
     private LocalDate dateOfBirth;

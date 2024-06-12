@@ -6,6 +6,7 @@
           type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" content="${_csrf.token}"/>
     <title>Marketplace</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -15,6 +16,7 @@
             background-image: url('https://catherineasquithgallery.com/uploads/posts/2021-02/1613374241_89-p-bezhevii-razmitii-fon-103.jpg');
             background-size: cover;
             background-repeat: no-repeat;
+            background-position: center center;
         }
 
         /* Стили для фона карточек с продуктами */
@@ -40,7 +42,6 @@
             border-color: #228B22; /* Темно-зеленая рамка при наведении */
         }
     </style>
-
 </head>
 <body>
 
@@ -71,17 +72,14 @@
                                    style="height: 38px;">More
                                     details...</a>
                                 <#if user.email??>
-                                        <#if product.shoppingCart??>
-                                            <a href="/show-shopping-cart" class="btn btn-warning btn-sm"
-                                               style="height: 38px;">Go to</a>
-                                        <#else>
-                                            <form method="post" action="/add-to-cart">
-                                                <input type="hidden" name="productId" value="${product.id}">
-                                                <input type="hidden" name="_csrf" value="${_csrf.token}">
-                                                <input type="hidden" name="template" value="/">
-                                                <button type="submit" class="btn btn-warning mx-1">Add to cart</button>
-                                            </form>
-                                        </#if>
+                                    <#if product.shoppingCart??>
+                                        <a href="/show-shopping-cart" class="btn btn-warning btn-sm"
+                                           style="height: 38px;">Go to</a>
+                                    <#else>
+                                        <button class="btn btn-warning mx-1" style="height: 38px;" id="addToCartButton"
+                                                onclick="addToCartFunc(${product.id}, this)">Add to cart
+                                        </button>
+                                    </#if>
                                 </#if>
                             </div>
                         </div>
@@ -95,5 +93,56 @@
         <h3>There are no products yet</h3>
     </#if>
 </div>
+
+<script>
+    function addToCartFunc(product, button) {
+        // обработка в зависимости от Add to cart и Go to
+        if (button.innerText === 'Add to cart') {
+            addToCartPostRequest(product)
+            changeAddToCartBtn(button)
+            changeCartCount()
+        } else window.location.href = '/show-shopping-cart';
+    }
+
+    // post запрос на добавление товара в корзину
+    function addToCartPostRequest(product) {
+        const jsonData = {
+            productId: product
+        };
+        const jsonString = JSON.stringify(jsonData);
+        console.log('json string: ', jsonString)
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://localhost:8080/add-to-cart', true);
+        const csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
+        console.log('csrf token: ', csrfToken)
+        xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(jsonString);
+    }
+
+    function changeAddToCartBtn(button) {
+        // изменение кнопки Add to cart на Go to
+        button.innerText = 'Go to';
+
+        button.classList.remove('btn');
+        button.classList.remove('btn-warning');
+        button.classList.remove('mx-1');
+
+        button.classList.add('btn');
+        button.classList.add('btn-warning');
+        button.classList.add('btn-sm');
+    }
+
+    //изменение числа товаров в корзине
+    function changeCartCount() {
+        // кнопка shopping cart
+        const cartBtn = document.getElementById('shoppingCartButton');
+        // +1 к списку товаров
+        let count = parseInt(cartBtn.innerText.replace(/\D/g, ''), 10) + 1;
+        // обновление числа товаров
+        cartBtn.innerText = `Shopping cart (` + count + ')';
+    }
+</script>
+
 </body>
 </html>

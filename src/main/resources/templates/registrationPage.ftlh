@@ -10,7 +10,7 @@
     <style>
         .error {
             color: red;
-            margin-top: 10px; /* Добавьте отступ сверху, если нужно */
+            margin-top: 10px;
         }
         body {
             background-image: url('https://catherineasquithgallery.com/uploads/posts/2021-02/1613374241_89-p-bezhevii-razmitii-fon-103.jpg');
@@ -65,31 +65,31 @@
 <#include "navbarShortened.ftlh"> <!-- Подключение навигационной панели -->
 
 <div class="container">
-    <form class="registration-form" action="/registration" method="post">
+    <form class="registration-form" action="/waiting-for-activation" method="post">
         <h4>Registration</h4>
         <#if error??>
             <div class="error text-center text-danger">${error}</div>
         </#if> <br>
         <label for="name">Name:</label>
-        <input type="text" name="name" id="name"><br><br>
+        <input type="text" name="name" id="name" required><br><br>
 
         <label for="dateOfBirth">Date of Birth:</label>
-        <input type="date" id="dateOfBirth" name="dateOfBirth"><br><br>
+        <input type="date" id="dateOfBirth" name="dateOfBirth" required><br><br>
 
         <label for="city">City:</label>
-        <input type="text" name="city" id="city"><br><br>
+        <input type="text" name="city" id="city" required><br><br>
 
         <label for="phoneNumber">Phone number:</label>
-        <input type="text" name="phoneNumber" id="phoneNumber"><br><br>
+        <input type="text" name="phoneNumber" id="phoneNumber" required><br><br>
 
         <label for="telegram">Telegram:</label>
-        <input type="text" name="telegram" id="telegram"><br><br>
+        <input type="text" name="telegram" id="telegram" required><br><br>
 
         <label for="email">Email:</label>
-        <input type="email" name="email" id="email"><br><br>
+        <input type="email" name="email" id="email" required><br><br>
 
         <label for="password">Password:</label>
-        <input type="password" name="password" id="password"><br><br>
+        <input type="password" name="password" id="password" required><br><br>
 
         <input type="hidden" name="_csrf" value="${_csrf.token}">
         <input type="submit" value="Sign up">

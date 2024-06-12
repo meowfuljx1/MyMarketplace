@@ -8,7 +8,7 @@
     <style>
         /* Стили для фона страницы */
         body {
-            background-image: url('https://catherineasquithgallery.com/uploads/posts/2023-02/1676612706_catherineasquithgallery-com-p-temno-zelenii-razmitii-fon-61.jpg');
+            background-image: url('https://catherineasquithgallery.com/uploads/posts/2021-02/1613374241_89-p-bezhevii-razmitii-fon-103.jpg');
             background-size: cover;
             background-repeat: no-repeat;
         }
@@ -70,7 +70,19 @@
             <form action="/product/update" method="post" enctype="multipart/form-data">
                 Title: <input type="text" name="title" value="${product.title}" required /><br><br>
                 Description: <input type="text" name="description" value="${product.description}" required /><br><br>
-                Price: <input type="number" name="price" value="${product.price}" required><br><br>
+                Price: <input type="number" name="price" id="priceInput" required><br><br>
+                <script>
+                    // Функция для удаления пробелов из строки
+                    function removeSpaces(str) {
+                        return str.replace(/\s/g, '');
+                    }
+
+                    // Получаем элемент input по его id
+                    const priceInput = document.getElementById('priceInput');
+
+                    // Устанавливаем значение поля цены, удаляя пробелы из значения товара
+                    priceInput.value = removeSpaces("${product.price}");
+                </script>
                 City: <input type="text" name="city"  value="${product.city}" required /><br><br>
                 <input type="hidden" name="productId" value="${product.id}">
                 <div class="row">

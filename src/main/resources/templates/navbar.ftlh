@@ -31,7 +31,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="btn btn-warning btn-sm" href="/show-shopping-cart">Shopping cart (${user.shoppingCart.products?size})</a>
+                    <a id="shoppingCartButton" class="btn btn-warning btn-sm" href="/show-shopping-cart">Shopping cart (${user.shoppingCart.products?size})</a>
                 </li>
 
                 <h5 class="user-name"> ${user.name}</h5>
