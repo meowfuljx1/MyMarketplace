@@ -16,7 +16,6 @@
             background-image: url('https://catherineasquithgallery.com/uploads/posts/2021-02/1613374241_89-p-bezhevii-razmitii-fon-103.jpg');
             background-size: cover;
             background-repeat: no-repeat;
-            background-position: center center;
         }
 
         /* Стили для фона карточек с продуктами */
